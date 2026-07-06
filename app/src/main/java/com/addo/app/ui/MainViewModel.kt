@@ -46,7 +46,7 @@ data class TimerState(
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repo = (app as AddoApp).repository
-    private val settings = app.settings
+    private val settings = (app as AddoApp).settings
 
     val tasks: StateFlow<List<Task>> = repo.observeAll()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
