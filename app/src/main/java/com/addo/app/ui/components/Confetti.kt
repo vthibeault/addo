@@ -6,14 +6,17 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
+import com.addo.app.ui.theme.AddoColors
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -23,12 +26,13 @@ private data class Particle(
     val speed: Float,
     val size: Float,
     val color: Color,
-    val spin: Float
+    val spin: Float,
+    val isRect: Boolean
 )
 
 private val palette = listOf(
-    Color(0xFF2E6B5E), Color(0xFFF0BD8F), Color(0xFF9A6A3B),
-    Color(0xFFA0D1C4), Color(0xFFC3CB94), Color(0xFFE8927C)
+    AddoColors.coral, AddoColors.sunshine, AddoColors.mint,
+    AddoColors.grape, AddoColors.bubblegum, Color(0xFF7DD3FC)
 )
 
 /**
@@ -43,20 +47,21 @@ fun ConfettiBurst(trigger: Int, modifier: Modifier = Modifier) {
         if (trigger > 0) {
             playingFor = trigger
             animatable.snapTo(0f)
-            animatable.animateTo(1f, tween(durationMillis = 1600, easing = LinearEasing))
+            animatable.animateTo(1f, tween(durationMillis = 1900, easing = LinearEasing))
         }
     }
     if (playingFor == 0) return
 
     val particles = remember(playingFor) {
         val rng = Random(playingFor)
-        List(80) {
+        List(120) {
             Particle(
-                angle = (-90f + rng.nextFloat() * 120f - 60f) * (Math.PI.toFloat() / 180f),
-                speed = 0.5f + rng.nextFloat() * 1.3f,
-                size = 8f + rng.nextFloat() * 14f,
+                angle = (-90f + (rng.nextFloat() - 0.5f) * 130f) * (Math.PI.toFloat() / 180f),
+                speed = 0.45f + rng.nextFloat() * 1.4f,
+                size = 7f + rng.nextFloat() * 16f,
                 color = palette[rng.nextInt(palette.size)],
-                spin = rng.nextFloat() * 8f
+                spin = (rng.nextFloat() - 0.5f) * 1080f,
+                isRect = rng.nextBoolean()
             )
         }
     }
@@ -64,19 +69,29 @@ fun ConfettiBurst(trigger: Int, modifier: Modifier = Modifier) {
     if (progress >= 1f) return
 
     Canvas(modifier = modifier.fillMaxSize()) {
-        val origin = Offset(size.width / 2f, size.height * 0.9f)
-        val reach = size.height * 0.9f
+        val origin = Offset(size.width / 2f, size.height * 0.92f)
+        val reach = size.height * 0.95f
         particles.forEach { p ->
             val t = progress
             val distance = p.speed * reach * t
             val x = origin.x + cos(p.angle) * distance
-            val y = origin.y + sin(p.angle) * distance + (t * t * size.height * 0.55f)
+            val y = origin.y + sin(p.angle) * distance + (t * t * size.height * 0.6f)
             val alpha = (1f - t).coerceIn(0f, 1f)
-            drawCircle(
-                color = p.color.copy(alpha = alpha),
-                radius = p.size * (1f - t * 0.4f),
-                center = Offset(x, y)
-            )
+            if (p.isRect) {
+                rotate(degrees = p.spin * t, pivot = Offset(x, y)) {
+                    drawRect(
+                        color = p.color.copy(alpha = alpha),
+                        topLeft = Offset(x - p.size / 2, y - p.size / 4),
+                        size = Size(p.size, p.size / 2)
+                    )
+                }
+            } else {
+                drawCircle(
+                    color = p.color.copy(alpha = alpha),
+                    radius = p.size / 2 * (1f - t * 0.3f),
+                    center = Offset(x, y)
+                )
+            }
         }
     }
 }

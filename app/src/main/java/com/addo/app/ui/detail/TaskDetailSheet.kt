@@ -106,7 +106,7 @@ fun TaskDetailSheet(
             )
 
             // When --------------------------------------------------------
-            Text("When", style = MaterialTheme.typography.labelLarge,
+            Text("📅 When", style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -206,7 +206,7 @@ fun TaskDetailSheet(
             }
 
             // Priority ----------------------------------------------------
-            Text("Priority", style = MaterialTheme.typography.labelLarge,
+            Text("⚡ Priority", style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf(
@@ -224,7 +224,7 @@ fun TaskDetailSheet(
             }
 
             // Steps -------------------------------------------------------
-            Text("Steps — make it smaller", style = MaterialTheme.typography.labelLarge,
+            Text("🪜 Steps — make it smaller", style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             steps.forEach { step ->
                 Row(verticalAlignment = Alignment.CenterVertically) {

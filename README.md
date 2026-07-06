@@ -59,9 +59,17 @@ it just starts counting again.
 Tasks with a time remind you automatically (that's what the time was for). Notifications
 have **Done** and **Snooze 10 min** right in them. Reminders survive reboots.
 
+## Design
+
+Candy, not corporate. A hand-picked palette (coral, sunshine, mint, grape) on warm
+cream paper, chunky rounded Fredoka + friendly Nunito type, tasks as tilted
+priority-colored stickers, and motion everywhere: springy check-offs with star
+bursts, animated list reflow, a wobbling dice, a pulsing gradient focus ring,
+bobbing empty states, and full-screen confetti when you clear your day.
+
 ## Tech
 
-- 100% Kotlin, Jetpack Compose, Material 3 with dynamic color
+- 100% Kotlin, Jetpack Compose, Material 3 with a custom design system
 - Room + DataStore, fully offline, single small APK
 - MVVM, no DI framework, no analytics, no network permission at all
 
