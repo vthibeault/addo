@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Addo</string>
+    <string name="channel_reminders">Task reminders</string>
+    <string name="channel_reminders_desc">Reminds you about tasks at the time you chose</string>
+    <string name="reminder_body">It\'s time. One small start counts.</string>
+    <string name="action_done">Done</string>
+    <string name="action_snooze">Snooze 10 min</string>
+</resources>
